@@ -62,7 +62,7 @@ MIDDLEWARE = [
 APPEND_SLASH = False
 
 ROOT_HOSTCONF = 'project.hosts'
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = 'project.api_urls'
 
 DEFAULT_HOST = 'api'
 
