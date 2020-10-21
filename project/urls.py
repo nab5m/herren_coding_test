@@ -19,5 +19,4 @@ from django.urls import path
 
 urlpatterns = [
     path('', lambda _: HttpResponse('헤렌 코딩 테스트')),
-    path('admin', admin.site.urls),
 ]

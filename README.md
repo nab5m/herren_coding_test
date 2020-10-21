@@ -3,7 +3,7 @@
 작성자: 김준영
 
 ## 명세
-pipenv, postgresql
+pipenv, postgresql, celery, docker
 
 ## 브랜치 관리
 - master(=main) <br>
@@ -23,6 +23,8 @@ Install django-hosts, drf
 
 ## 실행방법
 ```shell script
+pipenv install
+
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver

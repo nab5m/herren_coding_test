@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['.localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    # django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,8 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # libraries
     'django_hosts',
     'rest_framework',
+
+    # local apps
+    'mailing.apps.MailingConfig',
 ]
 
 MIDDLEWARE = [
