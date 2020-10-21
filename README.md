@@ -2,6 +2,9 @@
 
 작성자: 김준영
 
+## 명세
+pipenv, postgresql
+
 ## 브랜치 관리
 - master(=main) <br>
 : 프로덕션 서버, 실제 배포에 사용할 브랜치 <br>
@@ -14,6 +17,9 @@
 2. swagger로 문서화하기
 3. 내 aws 계정에 배포하기
 4. 코테 합격하기
+
+## ToDo
+Install django-hosts, drf
 
 ## 실행방법
 ```shell script
