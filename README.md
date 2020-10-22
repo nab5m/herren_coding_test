@@ -3,7 +3,11 @@
 작성자: 김준영
 
 ## 명세
-pipenv, postgresql, celery, docker
+pipenv, postgresql, celery, docker <br><br>
+<문서 작성하기> <br>
+[swagger 보러가기](http://api.localhost:8000/api-auth/login/?next=/api/v1/swagger) <br>
+[redoc 보러가기](http://api.localhost:8000/api-auth/login/?next=/api/v1/redoc)
+
 
 ## 브랜치 관리
 - master(=main) <br>

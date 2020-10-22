@@ -13,7 +13,7 @@ schema_view = get_schema_view(
       default_version='v1',
       description="헤렌 코딩 테스트 API 문서입니다 ㅎ-ㅎ",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
+      contact=openapi.Contact(email="kimjun136@naver.com"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
