@@ -12,3 +12,7 @@ class Subscriber(models.Model):
 
     class Meta:
         verbose_name = _('구독자')
+        verbose_name_plural = _('구독자')
+
+    def __str__(self):
+        return f'({self.id}) {self.name}: {self.email}'

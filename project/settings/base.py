@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     # libraries
     'corsheaders',
     'django_hosts',
+    'drf_yasg',
     'rest_framework',
 
     # local apps
-    'mailing.apps.MailingConfig',
+    'apps.mailing.apps.MailingConfig',
 ]
 
 MIDDLEWARE = [

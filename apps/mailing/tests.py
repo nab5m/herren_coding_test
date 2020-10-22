@@ -1,10 +1,10 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from mailing.models import Subscriber
+from apps.mailing.models import Subscriber
 
 
-class AccountTests(APITestCase):
+class SubscriberTests(APITestCase):
     def setup(self):
         Subscriber.objects.create({
             'name': '테스터',
