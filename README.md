@@ -29,6 +29,7 @@ pipenv, postgresql, celery, docker
 pipenv install
 
 python manage.py migrate
+python manage.py collectstatic
 python manage.py createsuperuser
 python manage.py runserver
 ```

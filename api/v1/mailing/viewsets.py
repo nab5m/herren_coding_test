@@ -1,3 +1,4 @@
+from drf_yasg2.utils import swagger_auto_schema
 from rest_framework import viewsets, mixins, status, parsers
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -15,6 +16,7 @@ class SubscriberViewSet(viewsets.GenericViewSet,
     serializer_class = SubscriberSerializer
 
     @action(detail=False, name='unsubscribe')
+    @swagger_auto_schema(responses={204: '구독 취소 성공', 400: '일치하는 구독자가 없습니다'})
     def unsubscribe(self, request, *args, **kwargs):
         name = request.data.get('name', '')
         email = request.data.get('email', '')

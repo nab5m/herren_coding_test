@@ -11,7 +11,8 @@ django-hosts = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 psycopg2-binary = "*"
-drf-yasg = "*"
+packaging = "*"
+drf-yasg2 = "*"
 
 [requires]
 python_version = "3.7"
