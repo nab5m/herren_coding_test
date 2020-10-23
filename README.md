@@ -18,7 +18,7 @@ pipenv, postgresql, celery, docker <br><br>
 
 ## 목표
 1. API TDD 적용해보기
-2. black이라는 파이썬 코드 포매터 사용해보기 
+2. black이라는 파이썬 코드 포매터 사용해보기 (완료)
 3. swagger로 문서화하기
 4. 코테 합격하기
 
