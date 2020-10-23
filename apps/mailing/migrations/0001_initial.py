@@ -7,21 +7,34 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Subscriber',
+            name="Subscriber",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='이름')),
-                ('email', models.EmailField(max_length=320, verbose_name='이메일')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='생성 날짜')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='수정 날짜')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="이름")),
+                ("email", models.EmailField(max_length=320, verbose_name="이메일")),
+                (
+                    "created_at",
+                    models.DateTimeField(auto_now_add=True, verbose_name="생성 날짜"),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="수정 날짜"),
+                ),
             ],
             options={
-                'verbose_name': '구독자',
+                "verbose_name": "구독자",
             },
         ),
     ]

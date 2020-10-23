@@ -18,12 +18,12 @@ pipenv, postgresql, celery, docker <br><br>
 
 ## 목표
 1. API TDD 적용해보기
-2. black이라는 파이썬 코드 포매터 사용해보기
+2. black이라는 파이썬 코드 포매터 사용해보기 
 3. swagger로 문서화하기
 4. 코테 합격하기
 
-## ToDo
-1. subscribe, unsubscribe
+## ToDo료
+1. subscribe, unsubscribe (완료)
 2. mail, inbox, mail_all
 3. mail_v2, mail_all_v2
 4. 도커 설정

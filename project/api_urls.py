@@ -17,7 +17,7 @@ from django.http import HttpResponse
 from django.urls import path, include
 
 urlpatterns = [
-    path('', lambda _: HttpResponse('헤렌 코딩 테스트')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api/v1', include('api.v1.urls')),
+    path("", lambda _: HttpResponse("헤렌 코딩 테스트")),
+    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+    path("api/v1", include("api.v1.urls")),
 ]

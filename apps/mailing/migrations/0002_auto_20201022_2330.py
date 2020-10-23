@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mailing', '0001_initial'),
+        ("mailing", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='subscriber',
-            options={'verbose_name': '구독자', 'verbose_name_plural': '구독자'},
+            name="subscriber",
+            options={"verbose_name": "구독자", "verbose_name_plural": "구독자"},
         ),
         migrations.AlterField(
-            model_name='subscriber',
-            name='email',
-            field=models.EmailField(max_length=320, unique=True, verbose_name='이메일'),
+            model_name="subscriber",
+            name="email",
+            field=models.EmailField(max_length=320, unique=True, verbose_name="이메일"),
         ),
     ]
