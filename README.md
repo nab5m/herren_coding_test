@@ -28,6 +28,10 @@ pipenv, postgresql, celery, docker <br><br>
 3. mail_v2, mail_all_v2
 4. 도커 설정
 
+## 해보면 좋은 것
+1. django-channels로 celery 작업 진행 정도를 보여줌
+2. admin (ckeditor)
+
 ## 실행방법
 ```shell script
 pipenv install
@@ -37,3 +41,6 @@ python manage.py collectstatic
 python manage.py createsuperuser
 python manage.py runserver
 ```
+
+## 새로 배운 것
+deleted_at이라는 필드를 보고 soft 삭제라는 것에 대해 알게 됨

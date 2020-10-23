@@ -7,23 +7,13 @@ from apps.mailing.models import Subscriber
 
 
 class SubscriberTests(APITestCase):
-    def setup(self):
-        Subscriber.objects.create(
-            {
-                "name": "테스터",
-                "email": "tester1@naver.com",
-            }
-        )
+    def setUp(self):
+        Subscriber.objects.create(name="테스터", email="tester1@naver.com")
 
     def test_subscribe_post(self):
         response = self.client.post(
             "/api/v1/subscribe",
-            urlencode(
-                {
-                    "name": "김준영",
-                    "email": "kimjun136@naver.com",
-                }
-            ),
+            urlencode({"name": "김준영", "email": "kimjun136@naver.com",}),
             content_type="application/x-www-form-urlencoded",
         )
 
@@ -34,10 +24,7 @@ class SubscriberTests(APITestCase):
     def test_unsubscribe_post(self):
         response = self.client.post(
             "/api/v1/unsubscribe",
-            {
-                "name": "테스터",
-                "email": "tester1@naver.com",
-            },
+            urlencode({"name": "테스터", "email": "tester1@naver.com",}),
             content_type="application/x-www-form-urlencoded",
         )
 
