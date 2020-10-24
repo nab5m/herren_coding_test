@@ -2,7 +2,7 @@ import os
 from celery import Celery
 
 # '셀러리' 프로그램을 위해 기본 장고 설정파일을 설정합니다.
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings.dev")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings.prod")
 
 app = Celery("celery")
 
