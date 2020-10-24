@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from api.v1.mailing.serializers import SubscriberSerializer, MailHistorySerializer
 from api.v1.permissions import IsSafeRequest
 from apps.mailing.models import Subscriber, MailHistory
+from apps.mailing.tasks import send_mails
 
 
 class SubscriberViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
@@ -74,12 +75,7 @@ class MailHistoryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
                     content=content,
                 )
 
-                sent_count = send_mail(
-                    subject, content, None, (subscriber.email,), fail_silently=False
-                )
-                if sent_count:
-                    mail_history.success = True
-                    mail_history.save()
+                send_mails.delay((mail_history.id,))
 
                 return Response(
                     data=MailHistorySerializer(instance=mail_history).data,
@@ -88,11 +84,6 @@ class MailHistoryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
             except Subscriber.DoesNotExist:
                 return Response(
                     data="일치하는 구독자가 없습니다", status=status.HTTP_400_BAD_REQUEST
-                )
-            except SMTPException as e:
-                print(e)
-                return Response(
-                    data="메일 전송에 실패했습니다", status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
 
         return Response(
@@ -121,21 +112,7 @@ class MailHistoryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
                 ]
             )
 
-            for mail_history in mail_histories:
-                try:
-                    sent_count = send_mail(
-                        subject,
-                        content,
-                        None,
-                        (mail_history.receiver.email,),
-                        fail_silently=False,
-                    )
-                    if sent_count:
-                        mail_history.success = True
-                        mail_history.save()
-
-                except SMTPException as e:
-                    print(e)
+            send_mails.delay([item.id for item in mail_histories])
 
             response = self.get_paginated_response(
                 MailHistorySerializer(

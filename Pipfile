@@ -15,6 +15,7 @@ packaging = "*"
 drf-yasg2 = "*"
 djangorestframework-camel-case = "*"
 django-filter = "*"
+celery = "*"
 
 [requires]
 python_version = "3.7"

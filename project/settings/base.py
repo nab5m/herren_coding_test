@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # libraries
+    "celery",
     "corsheaders",
     "django_filters",
     "django_hosts",
@@ -156,3 +157,12 @@ EMAIL_USE_TLS = True
 
 # 사이트와 관련한 자동응답을 받을 이메일 주소
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# CELERY
+CELERY_BACKEND = "amqp://guest@localhost//"
+CELERY_BROKER_URL = "amqp://guest@localhost//"
+
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_ENABLE_UTC = True
