@@ -43,4 +43,5 @@ python manage.py runserver
 ```
 
 ## 새로 배운 것
-deleted_at이라는 필드를 보고 soft 삭제라는 것에 대해 알게 됨
+1. deleted_at이라는 필드를 보고 soft 삭제라는 것에 대해 알게 됨
+2. [APITestCase에 헤더 추가하기](https://stackoverflow.com/questions/58173919/request-headers-in-apitestcase)
