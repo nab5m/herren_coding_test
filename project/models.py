@@ -12,6 +12,9 @@ class TimeStampedModel(models.Model):
 
 
 class SoftDeletionQuerySet(models.QuerySet):
+    def activate(self):
+        return super(SoftDeletionQuerySet, self).update(deleted_at=None)
+
     def delete(self):
         return super(SoftDeletionQuerySet, self).update(deleted_at=datetime.now())
 
