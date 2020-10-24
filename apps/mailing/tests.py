@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.test.client import urlencode
 
 from rest_framework import status
@@ -36,7 +37,7 @@ class SendMailTests(APITestCase):
         self.authorization = "herren-recruit-python"
         self.email = "tester1@naver.com"
 
-        Subscriber.objects.bulk_create(
+        subscribers = Subscriber.objects.bulk_create(
             [
                 Subscriber(name="테스터0", email=self.email),
                 Subscriber(name="테스터1", email="disnwkdl420@gmail.com"),
@@ -44,25 +45,25 @@ class SendMailTests(APITestCase):
                 Subscriber(name="테스터3", email="sk990240@naver.com"),
             ]
         )
-        subscriber1 = Subscriber.objects.get(email=self.email)
-        subscriber2 = Subscriber.objects.get(email="disnwkdl420@gmail.com")
+        subscriber1 = subscribers[0]
+        subscriber2 = subscribers[1]
         MailHistory.objects.bulk_create(
             [
                 MailHistory(
-                    sender="sender@naver.com",
+                    sender=settings.DEFAULT_FROM_EMAIL,
                     receiver=subscriber1,
                     subject="안녕1",
                     content="안녕1",
                 ),
                 MailHistory(
-                    sender="sender@naver.com",
+                    sender=settings.DEFAULT_FROM_EMAIL,
                     receiver=subscriber1,
                     subject="안녕2",
                     content="안녕2",
                     success=True,
                 ),
                 MailHistory(
-                    sender="sender@naver.com",
+                    sender=settings.DEFAULT_FROM_EMAIL,
                     receiver=subscriber2,
                     subject="안녕3",
                     content="안녕3",
@@ -95,6 +96,7 @@ class SendMailTests(APITestCase):
             content_type="application/x-www-form-urlencoded",
             **headers,
         )
+        print(response.data)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -123,5 +125,6 @@ class SendMailTests(APITestCase):
             content_type="application/x-www-form-urlencoded",
             **headers,
         )
+        print(response.data)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

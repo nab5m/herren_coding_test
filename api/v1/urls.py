@@ -27,6 +27,10 @@ urlpatterns = [
         name="unsubscribe",
     ),
     path("/inbox", MailHistoryViewSet.as_view({"get": "list"}), name="inbox",),
+    path("/mail", MailHistoryViewSet.as_view({"post": "mail_one"}), name="mail"),
+    path(
+        "/mail-all", MailHistoryViewSet.as_view({"post": "mail_all"}), name="mail_all"
+    ),
     re_path(
         r"^/swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),

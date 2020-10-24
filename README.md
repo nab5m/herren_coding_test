@@ -28,7 +28,7 @@ pipenv, postgresql, celery, docker <br><br>
 3. mail_v2, mail_all_v2
 4. 도커 설정
 
-## 해보면 좋은 것
+## 앞으로 해보면 좋은 것
 1. django-channels로 celery 작업 진행 정도를 보여줌
 2. admin (ckeditor)
 
