@@ -108,21 +108,21 @@ class MailHistoryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
         content = request.data.get("content")
 
         if subject and content:
-            try:
-                subscriber_ids = Subscriber.objects.values_list("id", flat=True)
-                mail_histories = MailHistory.objects.bulk_create(
-                    [
-                        MailHistory(
-                            sender=settings.DEFAULT_FROM_EMAIL,
-                            receiver_id=receiver_id,
-                            subject=subject,
-                            content=content,
-                        )
-                        for receiver_id in subscriber_ids
-                    ]
-                )
+            subscriber_ids = Subscriber.objects.values_list("id", flat=True)
+            mail_histories = MailHistory.objects.bulk_create(
+                [
+                    MailHistory(
+                        sender=settings.DEFAULT_FROM_EMAIL,
+                        receiver_id=receiver_id,
+                        subject=subject,
+                        content=content,
+                    )
+                    for receiver_id in subscriber_ids
+                ]
+            )
 
-                for mail_history in mail_histories:
+            for mail_history in mail_histories:
+                try:
                     sent_count = send_mail(
                         subject,
                         content,
@@ -134,18 +134,16 @@ class MailHistoryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
                         mail_history.success = True
                         mail_history.save()
 
-                response = self.get_paginated_response(
-                    MailHistorySerializer(
-                        instance=self.paginate_queryset(mail_histories), many=True
-                    ).data
-                )
-                response.status_code = status.HTTP_201_CREATED
-                return response
-            except SMTPException as e:
-                print(e)
-                return Response(
-                    data="메일 전송에 실패했습니다", status=status.HTTP_500_INTERNAL_SERVER_ERROR
-                )
+                except SMTPException as e:
+                    print(e)
+
+            response = self.get_paginated_response(
+                MailHistorySerializer(
+                    instance=self.paginate_queryset(mail_histories), many=True
+                ).data
+            )
+            response.status_code = status.HTTP_201_CREATED
+            return response
 
         return Response(
             data="subject, content는 필수 값입니다", status=status.HTTP_400_BAD_REQUEST
