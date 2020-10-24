@@ -71,9 +71,6 @@ class SendMailTests(APITestCase):
             ]
         )
 
-        print(f"구독자 수: {Subscriber.objects.count()}")
-        print("test 실행 마다 setUp 하는 것 확인")
-
     def test_inbox_get(self):
         headers = {"HTTP_AUTHORIZATION": self.authorization}
         response = self.client.get(
@@ -96,7 +93,6 @@ class SendMailTests(APITestCase):
             content_type="application/x-www-form-urlencoded",
             **headers,
         )
-        print(response.data)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -125,6 +121,85 @@ class SendMailTests(APITestCase):
             content_type="application/x-www-form-urlencoded",
             **headers,
         )
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+
+class SendMailV2Tests(APITestCase):
+    def setUp(self):
+        self.authorization = "herren-recruit-python"
+
+        Subscriber.objects.bulk_create(
+            [
+                Subscriber(name="테스터1", email="disnwkdl420@gmail.com"),
+                Subscriber(name="테스터2", email="kimjun136@naver.com"),
+                Subscriber(name="테스터3", email="sk990240@naver.com"),
+                Subscriber(name="테스터4", email="kimjun136@konkuk.ac.kr"),
+            ]
+        )
+
+    def test_mail_v1_post_redirection(self):
+        headers = {"HTTP_AUTHORIZATION": self.authorization}
+        response = self.client.post(
+            "/api/v1/mail",
+            urlencode(
+                {
+                    "mailto": "disnwkdl420@gmail.com",
+                    "subject": "메일 하나 보내기 테스트",
+                    "content": "내용입니다",
+                }
+            ),
+            content_type="application/x-www-form-urlencoded",
+            **headers,
+        )
+        print(response.__dict__)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_mail_v2_post_(self):
+        headers = {"HTTP_AUTHORIZATION": self.authorization}
+        response = self.client.post(
+            "/api/v2/mail",
+            urlencode(
+                {
+                    "mailto": "disnwkdl420@gmail.com",
+                    "subject": "메일 하나 보내기 테스트",
+                    "content": "내용입니다",
+                }
+            ),
+            content_type="application/x-www-form-urlencoded",
+            **headers,
+        )
         print(response.data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_mail_all_v2_post_(self):
+        headers = {"HTTP_AUTHORIZATION": self.authorization}
+        response = self.client.post(
+            "/api/v2/mail-all",
+            urlencode({"subject": "메일 전체 보내기 테스트", "content": "내용입니다",}),
+            content_type="application/x-www-form-urlencoded",
+            **headers,
+        )
+        print(response.data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_mail_v2_post_redirection(self):
+        headers = {"HTTP_AUTHORIZATION": self.authorization}
+        response = self.client.post(
+            "/api/v2/mail",
+            urlencode(
+                {
+                    "mailto": "kimjun136@konkuk.ac.kr",
+                    "subject": "메일 하나 보내기 테스트",
+                    "content": "내용입니다",
+                }
+            ),
+            content_type="application/x-www-form-urlencoded",
+            **headers,
+        )
+        print(response.__dict__)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
