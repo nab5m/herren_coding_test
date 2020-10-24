@@ -12,4 +12,5 @@ class SubscriberSerializer(serializers.ModelSerializer):
             "email",
             "created_at",
             "updated_at",
+            "deleted_at",
         )

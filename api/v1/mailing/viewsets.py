@@ -24,8 +24,8 @@ class SubscriberViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
         try:
             # email이 unique라서 한 개 이하임
             subscriber = Subscriber.objects.filter(name=name, email=email).get()
-            data = SubscriberSerializer(instance=subscriber).data
             subscriber.delete()
+            data = SubscriberSerializer(instance=subscriber).data
             return Response(status=status.HTTP_204_NO_CONTENT, data=data)
         except Subscriber.DoesNotExist as e:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="일치하는 구독자가 없습니다",)
