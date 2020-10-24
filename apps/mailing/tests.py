@@ -3,7 +3,7 @@ from django.test.client import urlencode
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from apps.mailing.models import Subscriber
+from apps.mailing.models import Subscriber, MailHistory
 
 
 class SubscriberTests(APITestCase):
@@ -38,9 +38,35 @@ class SendMailTests(APITestCase):
 
         Subscriber.objects.bulk_create(
             [
+                Subscriber(name="테스터0", email=self.email),
                 Subscriber(name="테스터1", email="disnwkdl420@gmail.com"),
                 Subscriber(name="테스터2", email="kimjun136@naver.com"),
                 Subscriber(name="테스터3", email="sk990240@naver.com"),
+            ]
+        )
+        subscriber1 = Subscriber.objects.get(email=self.email)
+        subscriber2 = Subscriber.objects.get(email="disnwkdl420@gmail.com")
+        MailHistory.objects.bulk_create(
+            [
+                MailHistory(
+                    sender="sender@naver.com",
+                    receiver=subscriber1,
+                    subject="안녕1",
+                    content="안녕1",
+                ),
+                MailHistory(
+                    sender="sender@naver.com",
+                    receiver=subscriber1,
+                    subject="안녕2",
+                    content="안녕2",
+                    success=True,
+                ),
+                MailHistory(
+                    sender="sender@naver.com",
+                    receiver=subscriber2,
+                    subject="안녕3",
+                    content="안녕3",
+                ),
             ]
         )
 
@@ -49,7 +75,9 @@ class SendMailTests(APITestCase):
 
     def test_inbox_get(self):
         headers = {"HTTP_AUTHORIZATION": self.authorization}
-        response = self.client.get(f"/api/v1/inbox/{self.email}", **headers)
+        response = self.client.get(
+            f"/api/v1/inbox?receiver__email={self.email}", **headers
+        )
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 

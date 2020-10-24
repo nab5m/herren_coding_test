@@ -27,5 +27,6 @@ class MailHistorySerializer(serializers.ModelSerializer):
             "content",
             "success",
             "created_at",
+            "updated_at",
             "deleted_at",
         )

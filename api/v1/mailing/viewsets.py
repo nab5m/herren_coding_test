@@ -1,10 +1,12 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg2.utils import swagger_auto_schema
-from rest_framework import viewsets, mixins, status, parsers
+from rest_framework import viewsets, mixins, status, pagination
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from api.v1.mailing.serializers import SubscriberSerializer
-from apps.mailing.models import Subscriber
+from api.v1.mailing.serializers import SubscriberSerializer, MailHistorySerializer
+from api.v1.permissions import IsSafeRequest
+from apps.mailing.models import Subscriber, MailHistory
 
 
 class SubscriberViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
@@ -29,3 +31,22 @@ class SubscriberViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
             return Response(status=status.HTTP_204_NO_CONTENT, data=data)
         except Subscriber.DoesNotExist as e:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="일치하는 구독자가 없습니다",)
+
+
+class MailHistoryPagination(pagination.PageNumberPagination):
+    page_size = 20
+    page_size_query_param = "page_size"
+    # max_page_size = 10000
+
+
+class MailHistoryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
+    """
+    보낸메일 내역 확인 API
+    """
+
+    queryset = MailHistory.objects.success()
+    serializer_class = MailHistorySerializer
+    pagination_class = MailHistoryPagination
+    filter_backends = (DjangoFilterBackend,)
+    filterset_fields = ("receiver__email",)
+    permission_classes = (IsSafeRequest,)

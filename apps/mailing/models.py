@@ -23,7 +23,8 @@ class Subscriber(TimeStampedModel, SoftDeletionModel):
 
 
 class MailHistoryQuerySet(SoftDeletionQuerySet):
-    pass
+    def success(self):
+        return self.filter(success=True)
 
 
 class MailHistoryManager(SoftDeletionManager):
@@ -37,6 +38,9 @@ class MailHistoryManager(SoftDeletionManager):
                 .exclude(receiver=None)
             )
         return MailHistoryQuerySet(self.model).select_related("receiver")
+
+    def success(self):
+        return self.get_queryset().success()
 
 
 class MailHistory(TimeStampedModel, SoftDeletionModel):
@@ -59,6 +63,7 @@ class MailHistory(TimeStampedModel, SoftDeletionModel):
     class Meta:
         verbose_name = _("보낸 메일 내역")
         verbose_name_plural = _("보낸 메일 내역")
+        ordering = ("-id",)
 
     def __str__(self):
         if self.receiver:
