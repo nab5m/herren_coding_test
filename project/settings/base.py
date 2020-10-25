@@ -160,8 +160,8 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # CELERY
-CELERY_BACKEND = "amqp://guest@localhost//"
-CELERY_BROKER_URL = "amqp://guest@localhost//"
+CELERY_BACKEND = "amqp://guest@rabbitmq//"
+CELERY_BROKER_URL = "amqp://guest@rabbitmq//"
 
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
