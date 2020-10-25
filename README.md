@@ -10,6 +10,7 @@ open http://admin.localhost:8000
 open http://api.localhost:8000/api-auth/login/?next=/api/v1/swagger
 admin user: admin / admin123!
 
+* 데이터 요청 시에 Authorization: herren-recruit-python을 추가해주세요
 open http://api.localhost:8000/api/v1/inbox
 open http://api.localhost:8000/api/v1/inbox/subscribe
 open http://api.localhost:8000/api/v1/inbox/unsubscribe
@@ -53,3 +54,4 @@ pipenv, postgresql, celery, docker <br><br>
 ## 새로 배운 것
 1. deleted_at이라는 필드를 보고 soft 삭제라는 것에 대해 알게 됨
 2. [APITestCase에 헤더 추가하기](https://stackoverflow.com/questions/58173919/request-headers-in-apitestcase)
+3. docker-compose down --rmi all --volumes
