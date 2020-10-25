@@ -13,8 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.http import HttpResponse
 from django.urls import path, include
+
 
 urlpatterns = [
     path("", lambda _: HttpResponse("헤렌 코딩 테스트")),
@@ -22,3 +25,5 @@ urlpatterns = [
     path("api/v1", include("api.v1.urls")),
     path("api/v2", include("api.v2.urls")),
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
