@@ -6,6 +6,7 @@
 ```shell script
 docker-compose up
 
+open http://admin.localhost:8000
 open http://api.localhost:8000/api-auth/login/?next=/api/v1/swagger
 admin user: admin / admin123!
 
