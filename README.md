@@ -2,6 +2,23 @@
 
 작성자: 김준영
 
+## 실행방법
+```shell script
+docker-compose up
+
+open http://api.localhost:8000/api-auth/login/?next=/api/v1/swagger
+admin user: admin / admin123!
+
+open http://api.localhost:8000/api/v1/inbox
+open http://api.localhost:8000/api/v1/inbox/subscribe
+open http://api.localhost:8000/api/v1/inbox/unsubscribe
+open http://api.localhost:8000/api/v1/mail
+open http://api.localhost:8000/api/v1/mail-all
+
+open http://api.localhost:8000/api/v2/mail
+open http://api.localhost:8000/api/v2/mail-all
+```
+
 ## 명세
 pipenv, postgresql, celery, docker <br><br>
 <문서 작성하기> <br>
@@ -31,16 +48,6 @@ pipenv, postgresql, celery, docker <br><br>
 ## 앞으로 해보면 좋은 것
 1. django-channels로 celery 작업 진행 정도를 보여줌
 2. admin (ckeditor)
-
-## 실행방법
-```shell script
-pipenv install
-
-python manage.py migrate
-python manage.py collectstatic
-python manage.py createsuperuser
-python manage.py runserver
-```
 
 ## 새로 배운 것
 1. deleted_at이라는 필드를 보고 soft 삭제라는 것에 대해 알게 됨
