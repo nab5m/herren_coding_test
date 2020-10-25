@@ -16,6 +16,8 @@ drf-yasg2 = "*"
 djangorestframework-camel-case = "*"
 django-filter = "*"
 celery = "*"
+gunicorn = "*"
+importlib-metadata = "*"
 
 [requires]
 python_version = "3.7"

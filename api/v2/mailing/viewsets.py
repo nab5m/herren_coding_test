@@ -8,58 +8,27 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from api.v1.mailing.serializers import SubscriberSerializer, MailHistorySerializer
+from api.v1.mailing.viewsets import MailHistoryPagination
 from api.v1.permissions import IsSafeRequest
 from apps.mailing.models import Subscriber, MailHistory
 from apps.mailing.tasks import send_mails
 
 
-class SubscriberViewSet(viewsets.GenericViewSet, mixins.CreateModelMixin):
+class MailHistoryViewSetV2(viewsets.GenericViewSet):
     """
-    메일링 리스트 구독과 구독 취소 API
-    """
-
-    queryset = Subscriber.objects.all()
-    serializer_class = SubscriberSerializer
-
-    @action(detail=False, name="unsubscribe")
-    @swagger_auto_schema(responses={204: "구독 취소 성공", 400: "일치하는 구독자가 없습니다"})
-    def unsubscribe(self, request, *args, **kwargs):
-        name = request.data.get("name", "")
-        email = request.data.get("email", "")
-
-        try:
-            # email이 unique라서 한 개 이하임
-            subscriber = Subscriber.objects.filter(name=name, email=email).get()
-            data = SubscriberSerializer(instance=subscriber).data
-            subscriber.hard_delete()
-            return Response(status=status.HTTP_204_NO_CONTENT, data=data)
-        except Subscriber.DoesNotExist as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data="일치하는 구독자가 없습니다",)
-
-
-class MailHistoryPagination(pagination.PageNumberPagination):
-    page_size = 20
-    page_size_query_param = "page_size"
-    # max_page_size = 10000
-
-
-class MailHistoryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
-    """
-    메일 전송 및 보낸메일 내역 확인 API
+    수신인이 gmail과 naver일 때 이용하는 API입니다.
+    기존의 v1 API로 gmail과 naver에 보내는 경우 v2로 redirect(301) 됩니다.
     """
 
     queryset = MailHistory.objects.success()
     serializer_class = MailHistorySerializer
     pagination_class = MailHistoryPagination
-    filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ("receiver__email",)
     permission_classes = (IsSafeRequest,)
 
-    @action(detail=False, name="mail_one")
     @swagger_auto_schema(
         responses={
             201: "메일 전송 성공",
-            301: "v2를 이용해주세요",
+            301: "v1을 이용해주세요",
             400: "일치하는 구독자가 없습니다",
             500: "메일 전송에 실패했습니다",
         }
@@ -70,11 +39,11 @@ class MailHistoryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
         content = request.data.get("content")
 
         if mailto and subject and content:
-            if mailto.endswith("@gmail.com") or mailto.endswith("@naver.com"):
+            if not (mailto.endswith("@gmail.com") or mailto.endswith("@naver.com")):
                 return redirect(
-                    reverse("mail_v2"),
+                    reverse("mail"),
                     permanent=True,
-                    data="gmail과 naver는 /api/v2/mail을 이용해주세요",
+                    data="gmail과 naver를 제외하 /api/v1/mail을 이용해주세요",
                 )
 
             try:
@@ -110,7 +79,7 @@ class MailHistoryViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
         content = request.data.get("content")
 
         if subject and content:
-            subscriber_ids = Subscriber.objects.not_gmail_and_naver().values_list(
+            subscriber_ids = Subscriber.objects.gmail_or_naver().values_list(
                 "id", flat=True
             )
             mail_histories = MailHistory.objects.bulk_create(

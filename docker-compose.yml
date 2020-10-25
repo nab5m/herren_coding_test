@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=herren_dev
+      - POSTGRES_USER=herren_dev
+      - POSTGRES_PASSWORD=nab5m^^
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+
+  django:
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@naver.com
+      - DJANGO_SUPERUSER_PASSWORD=admin123!
+    build:
+      context: .
+      dockerfile: ./Dockerfile
