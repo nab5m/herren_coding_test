@@ -1,8 +1,6 @@
 FROM python:3.7
 MAINTAINER kimjun136@naver.com
-RUN apt-get -y update \
-    && apt-get install -y rabbitmq-server \
-    && service rabbitmq-server start
+RUN apt-get -y update
 
 RUN pip install --upgrade pip
 
