@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.utils.translation import ugettext as _
 
 from project.models import (
@@ -9,10 +10,37 @@ from project.models import (
 )
 
 
+class SubscriberQuerySet(SoftDeletionQuerySet):
+    def not_gamil_and_naver(self):
+        return self.exclude(
+            Q(email__endswith="@gmail.com") | Q(email__endswith="@naver.com")
+        )
+
+    def gmail_or_naver(self):
+        return self.filter(
+            Q(email__endswith="@gmail.com") | Q(email__endswith="@naver.com")
+        )
+
+
+class SubscriberManager(SoftDeletionManager):
+    def get_queryset(self):
+        if self.alive_only:
+            return SubscriberQuerySet(self.model).filter(deleted_at=None)
+        return SubscriberQuerySet(self.model)
+
+    def not_gmail_and_naver(self):
+        return SubscriberQuerySet(self.model).not_gamil_and_naver()
+
+    def gmail_or_naver(self):
+        return SubscriberQuerySet(self.model).gmail_or_naver()
+
+
 class Subscriber(TimeStampedModel, SoftDeletionModel):
     name = models.CharField(_("이름"), max_length=100)
     email = models.EmailField(_("이메일"), max_length=320, unique=True)
     # 검색해보니 이메일 최대 길이는 320으로 나왔습니다
+
+    objects = SubscriberManager()
 
     class Meta:
         verbose_name = _("구독자")

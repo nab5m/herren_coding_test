@@ -40,7 +40,7 @@ class SendMailTests(APITestCase):
         subscribers = Subscriber.objects.bulk_create(
             [
                 Subscriber(name="테스터0", email=self.email),
-                Subscriber(name="테스터1", email="disnwkdl420@gmail.com"),
+                Subscriber(name="테스터1", email="kimjun136@konkuk.ac.kr"),
                 Subscriber(name="테스터2", email="kimjun136@naver.com"),
                 Subscriber(name="테스터3", email="sk990240@naver.com"),
             ]
@@ -85,7 +85,7 @@ class SendMailTests(APITestCase):
             "/api/v1/mail",
             urlencode(
                 {
-                    "mailto": "disnwkdl420@gmail.com",
+                    "mailto": "kimjun136@konkuk.ac.kr",
                     "subject": "메일 하나 보내기 테스트",
                     "content": "내용입니다",
                 }
@@ -102,7 +102,7 @@ class SendMailTests(APITestCase):
             "/api/v1/mail",
             urlencode(
                 {
-                    "mailto": "tester@gmail.com",
+                    "mailto": "hello@duam.net",
                     "subject": "메일 하나 보내기 테스트",
                     "content": "내용입니다",
                 }
@@ -154,7 +154,7 @@ class SendMailV2Tests(APITestCase):
         )
         print(response.__dict__)
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
 
     def test_mail_v2_post_(self):
         headers = {"HTTP_AUTHORIZATION": self.authorization}
@@ -163,7 +163,7 @@ class SendMailV2Tests(APITestCase):
             urlencode(
                 {
                     "mailto": "disnwkdl420@gmail.com",
-                    "subject": "메일 하나 보내기 테스트",
+                    "subject": "메일 하나 보내기 v2 테스트",
                     "content": "내용입니다",
                 }
             ),
@@ -178,7 +178,7 @@ class SendMailV2Tests(APITestCase):
         headers = {"HTTP_AUTHORIZATION": self.authorization}
         response = self.client.post(
             "/api/v2/mail-all",
-            urlencode({"subject": "메일 전체 보내기 테스트", "content": "내용입니다",}),
+            urlencode({"subject": "메일 전체 보내기 v2 테스트", "content": "내용입니다",}),
             content_type="application/x-www-form-urlencoded",
             **headers,
         )
@@ -193,7 +193,7 @@ class SendMailV2Tests(APITestCase):
             urlencode(
                 {
                     "mailto": "kimjun136@konkuk.ac.kr",
-                    "subject": "메일 하나 보내기 테스트",
+                    "subject": "메일 하나 보내기 v2 테스트",
                     "content": "내용입니다",
                 }
             ),
@@ -202,4 +202,4 @@ class SendMailV2Tests(APITestCase):
         )
         print(response.__dict__)
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_301_MOVED_PERMANENTLY)
